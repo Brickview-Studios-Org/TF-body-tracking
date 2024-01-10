@@ -45,9 +45,9 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
   function HelloDragonBonesCustom() {
     var _this = _super.call(this) || this;
     _this._resources.push(
-      "resource/Red/YShirt3_ske.json",
-      "resource/Red/YShirt3_tex.json",
-      "resource/Red/YShirt3_tex.png"
+      "resource/Red/YShirt4_ske.json",
+      "resource/Red/YShirt4_tex.json",
+      "resource/Red/YShirt4_tex.png"
     );
     return _this;
   }
@@ -56,16 +56,13 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     var factory = dragonBones.PixiFactory.factory;
 
     factory.parseDragonBonesData(
-      this._pixiResources["resource/Red/YShirt3_ske.json"].data
+      this._pixiResources["resource/Red/YShirt4_ske.json"].data
     );
     factory.parseTextureAtlasData(
-      this._pixiResources["resource/Red/YShirt3_tex.json"].data,
-      this._pixiResources["resource/Red/YShirt3_tex.png"].texture
+      this._pixiResources["resource/Red/YShirt4_tex.json"].data,
+      this._pixiResources["resource/Red/YShirt4_tex.png"].texture
     );
-    var armatureDisplay = factory.buildArmatureDisplay(
-      "Armature",
-      "YShirt3"
-    );
+    var armatureDisplay = factory.buildArmatureDisplay("Armature", "YShirt4");
     armatureDisplay.animation.play("animtion0");
     armatureDisplay.x = -15;
     armatureDisplay.y = 0;
@@ -88,8 +85,8 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     this.addChild(armatureDisplay);
 
     this.myCircle = new PIXI.Graphics();
-    this.myCircle.lineStyle(2, 0x9933FF);
-    this.myCircle.beginFill(0xcc33FF);
+    this.myCircle.lineStyle(2, 0x9933ff);
+    this.myCircle.beginFill(0xcc33ff);
 
     // params: pos x, pos y, radius
     this.myCircle.drawCircle(0, 0, 25);
@@ -97,7 +94,7 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     this.myCircle.endFill();
 
     // Add PIXI Graphics object to the PixiJS stage
-  this.addChild(this.myCircle);
+    this.addChild(this.myCircle);
 
     PIXI.ticker.shared.add(this._enterFrameHandler, this);
   };
@@ -105,14 +102,14 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     this.effectSlot.offset.x = 320 - NeckX;
     this.effectSlot.offset.y = NeckY - 240;
 
-    let leftWrist = 200 -  lWristX; // this 200 is arbitary suposed to be 320 but this works 
-    this.left_wrist.offset.x = leftWrist
-    this.left_wrist.offset.y =  lWristY -480
+    // let leftWrist =  // this 200 is arbitary suposed to be 320 but this works
+    this.left_wrist.offset.x = 200 - lWristX;
+    this.left_wrist.offset.y = lWristY - 480;
 
-    let elbowSide = 200- lElbowX;
-    this.left_elbow.offset.x = elbowSide;
-    let elbowHeigh = lElbowY - 400;
-    this.left_elbow.offset.y =  elbowHeigh
+    //let elbowSide =
+    this.left_elbow.offset.x = 200 - lElbowX;
+    //let elbowHeigh =
+    this.left_elbow.offset.y = lElbowY - 400;
 
     this.left_shoulder_joint.offset.x = 320 - lShoulderX;
     this.left_shoulder_joint.offset.y = lShoulderY - 240;
@@ -120,24 +117,22 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     this.right_wrist.offset.x = 420 - rWristX;
     this.right_wrist.offset.y = rWristY - 480;
 
-    
-    let relbowSide = 440 - rElbowX;
-    this.right_elbow.offset.x =  relbowSide;
-    let relbowHeigh = rElbowY - 400;
-    this.right_elbow.offset.y = relbowHeigh;
+    //let relbowSide =
+    this.right_elbow.offset.x = 440 - rElbowX;
+    //let relbowHeigh =
+    this.right_elbow.offset.y = rElbowY - 400;
 
     this.right_shoulder_joint.offset.x = 320 - rShoulderX;
     this.right_shoulder_joint.offset.y = rShoulderY - 240;
-
 
     //console.log(lWristY - 240);
     //this.left_wrist.offset.y =  lWristY - 240;
     //
 
-    this.myCircle.x = -400// relbowSide//320 - lElbowX ;
-    this.myCircle.y =-600 // relbowHeigh ;
+    this.myCircle.x = -400; // relbowSide//320 - lElbowX ;
+    this.myCircle.y = -600; // relbowHeigh ;
 
-   // console.log("Lwrist y is  " + this.left_wrist.offset.y ) ;
+    // console.log("Lwrist y is  " + this.left_wrist.offset.y ) ;
   };
   return HelloDragonBonesCustom;
 })(BaseDemo);
@@ -200,51 +195,138 @@ async function detectFrame() {
 let NoseX = 0;
 let NoseY = 0;
 
-let NeckX = 0;
-let NeckY = 0;
+let NeckX = 0,
+  lastNeckX = 0;
+let NeckY = 0,
+  lastNeckY = 0;
+
 let lWristX = 0,
+  lastLwristX = 0,
   lElbowX = 0,
-  lShoulderX = 0;
+  lastLElbowX = 0,
+  lShoulderX = 0,
+  lastLShoulderX = 0;
+
 let lWristY = 0,
+  lastLwristY = 0,
   lElbowY = 0,
-  lShoulderY = 0;
+  lastLElbowY = 0,
+  lShoulderY = 0,
+  lastLShoulderY = 0;
 
 let rWristX = 0,
+  lastRWristX = 0,
   rElbowX = 0,
-  rShoulderX = 0;
+  lastRElbowX = 0,
+  rShoulderX = 0,
+  lastRShoulderX = 0;
 let rWristY = 0,
+  lastRWristY = 0,
   rElbowY = 0,
-  rShoulderY = 0;
+  lastRElbowY = 0,
+  rShoulderY = 0,
+  lastRShoulderY = 0;
 
 function step(timestamp) {
   detectFrame().then((p) => {
     NoseX = p.keypoints[0].position.x; //Because we have flipped the image for mirror effect  we take oppsit sides
     NoseY = p.keypoints[0].position.y;
 
-    lWristX = p.keypoints[10].position.x;
-    lWristY = p.keypoints[10].position.y;
+    //console.log("Elbow Score " +  p.keypoints[10].score)
 
-    lElbowX = p.keypoints[8].position.x;
-    lElbowY = p.keypoints[8].position.y;
+    // Left Shoulder ------------
+    if (p.keypoints[6].score > 0.5) {
+      if (Math.abs(p.keypoints[6].position.x - lastLShoulderX) > 10) {
+        lShoulderX = lShoulderX + (p.keypoints[6].position.x - lShoulderX)/16 ;
 
-    lShoulderX = p.keypoints[6].position.x;
-    lShoulderY = p.keypoints[6].position.y;
+        lastLShoulderX = lShoulderX;
+      }
 
-    rWristX = p.keypoints[9].position.x;
-    rWristY = p.keypoints[9].position.y;
+      if (Math.abs(p.keypoints[6].position.x - lastLShoulderY) > 10) {
+        lShoulderY =  lShoulderY +(p.keypoints[6].position.y - lShoulderY)/16;
+        lastLShoulderY = lShoulderY;
+      }
+    }
 
-    rElbowX = p.keypoints[7].position.x;
-    rElbowY = p.keypoints[7].position.y;
+    // Right Shoulder -
+    if (p.keypoints[5].score > 0.5) {
+      if (Math.abs(p.keypoints[5].position.x - lastRShoulderX) > 10) {
+        rShoulderX = rShoulderX +(p.keypoints[5].position.x - rShoulderX)/16 ;
 
-    rShoulderX = p.keypoints[5].position.x;
-    rShoulderY = p.keypoints[5].position.y;
+        lastRShoulderX = rShoulderX;
+      }
 
-    NeckX = (lShoulderX + rShoulderX) / 2;
-    NeckY = (lShoulderY + rShoulderY) / 2;
+      if (Math.abs(p.keypoints[5].position.x - lastRShoulderY) > 10) {
+        rShoulderY = rShoulderY +( p.keypoints[5].position.y - rShoulderY) / 16;
+        lastRShoulderY = lShoulderY;
+      }
+    }
+    //Neck
+    if (p.keypoints[6].score > 0.5 && p.keypoints[5].score) {
+      if (Math.abs((lShoulderX + rShoulderX) / 2 - lastNeckX) > 5) {
+        lastNeckX = NeckX;
+        lastNeckY = NeckY;
 
+        NeckX = (lShoulderX + rShoulderX) / 2;
+        NeckY = (lShoulderY + rShoulderY) / 2;
+      }
+    }
+
+    //Left Elbow
+    if (p.keypoints[8].score > 0.5) {
+      if (Math.abs(p.keypoints[8].position.x - lastLElbowX) > 10) {
+        lElbowX =  lElbowX + (p.keypoints[8].position.x - lElbowX)/16;
+        lastLElbowX = lElbowX;
+      }
+
+      if (Math.abs(p.keypoints[8].position.y - lastLElbowY) > 10) {
+        lElbowY = lElbowY + (p.keypoints[8].position.y - lElbowY) / 16;
+        lastLElbowY = lElbowY;
+      }
+    }
+
+    //Left Wrist ------------------------------
+    if (p.keypoints[10].score > 0.5) {
+      if (Math.abs(p.keypoints[10].position.x - lastLwristX) > 10) {
+        lWristX = lWristX + (p.keypoints[10].position.x - lWristX)/16;
+        lastLwristX = lWristX;
+      }
+
+      if (Math.abs(p.keypoints[10].position.x - lastLwristY) > 10) {
+        lWristY =  lWristY + (p.keypoints[10].position.y - lWristY)/16;
+        lastLwristY = lWristY;
+      }
+    }
+
+    //Right Elbow------------
+    if (p.keypoints[7].score > 0.5) {
+      if (Math.abs(p.keypoints[7].position.x - lastRElbowX) > 10) {
+        console.log(
+          "Difference was " + Math.abs(p.keypoints[7].position.x - lastRElbowX)
+        );
+        rElbowX = rElbowX + (p.keypoints[7].position.x - lastRElbowX) / 16;
+        lastRElbowX = rElbowX;
+      }
+      if (Math.abs(p.keypoints[7].position.x - lastRElbowY) > 10) {
+        rElbowY = rElbowY + (p.keypoints[7].position.y - lastRElbowY) / 16;
+        lastRElbowY = rElbowY;
+      }
+    }
+
+    //Right Wrist --------------
+
+    if (p.keypoints[9].score > 0.5) {
+      if (Math.abs(p.keypoints[9].position.x - lastRWristX) > 10) {
+        rWristX = rWristX + (p.keypoints[9].position.x - rWristX)/16;
+        lastRWristX = rWristX;
+      }
+      if (Math.abs(p.keypoints[9].position.x - lastRWristY) > 10) {
+       
+        rWristY = rWristY + ( p.keypoints[9].position.y -rWristY ) / 16 ;
+        lastRWristY = rWristY;
+      }
+    }
     //console.log(NoseX)
-    noseCircle.style.left =700// `${640 - lWristX}px`;
-    noseCircle.style.top =900// `${lWristY}px`;
 
     //console.log("Tensorf flow x " + (640 - lWristX) + " y " + lWristY )
   });
