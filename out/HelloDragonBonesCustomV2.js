@@ -138,7 +138,7 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
 })(BaseDemo);
 
 var Net;
-var noseCircle;
+var greenCircle, redCircle;
 const video = document.createElement("video");
 // Wrap your code in DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
@@ -172,12 +172,19 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error loading PoseNet:", error);
     });
 
-  noseCircle = document.createElement("div");
-  noseCircle.setAttribute(
+  greenCircle = document.createElement("div");
+  greenCircle.setAttribute(
     "style",
-    "background-color:red; width:20px; height:20px; position:absolute; z-index:1000; border-radius:50%"
+    "background-color:green; width:20px; height:20px; position:absolute; z-index:1000; border-radius:50%"
   );
-  document.body.appendChild(noseCircle);
+  document.body.appendChild(greenCircle);
+
+  redCircle = document.createElement("div");
+  redCircle.setAttribute(
+    "style",
+    "background-color:blue; width:20px; height:20px; position:absolute; z-index:1000; border-radius:50%"
+  );
+  document.body.appendChild(redCircle);
   window.requestAnimationFrame(step);
 });
 
@@ -237,13 +244,13 @@ function step(timestamp) {
     // Left Shoulder ------------
     if (p.keypoints[6].score > 0.5) {
       if (Math.abs(p.keypoints[6].position.x - lastLShoulderX) > 10) {
-        lShoulderX = lShoulderX + (p.keypoints[6].position.x - lShoulderX)/16 ;
+        lShoulderX = lShoulderX + (p.keypoints[6].position.x - lShoulderX) / 16;
 
         lastLShoulderX = lShoulderX;
       }
 
-      if (Math.abs(p.keypoints[6].position.x - lastLShoulderY) > 10) {
-        lShoulderY =  lShoulderY +(p.keypoints[6].position.y - lShoulderY)/16;
+      if (Math.abs(p.keypoints[6].position.y - lastLShoulderY) > 10) {
+        lShoulderY = lShoulderY + (p.keypoints[6].position.y - lShoulderY) / 16;
         lastLShoulderY = lShoulderY;
       }
     }
@@ -251,13 +258,13 @@ function step(timestamp) {
     // Right Shoulder -
     if (p.keypoints[5].score > 0.5) {
       if (Math.abs(p.keypoints[5].position.x - lastRShoulderX) > 10) {
-        rShoulderX = rShoulderX +(p.keypoints[5].position.x - rShoulderX)/16 ;
+        rShoulderX = rShoulderX + (p.keypoints[5].position.x - rShoulderX) / 16;
 
         lastRShoulderX = rShoulderX;
       }
 
-      if (Math.abs(p.keypoints[5].position.x - lastRShoulderY) > 10) {
-        rShoulderY = rShoulderY +( p.keypoints[5].position.y - rShoulderY) / 16;
+      if (Math.abs(p.keypoints[5].position.y - lastRShoulderY) > 10) {
+        rShoulderY = rShoulderY + (p.keypoints[5].position.y - rShoulderY) / 16;
         lastRShoulderY = lShoulderY;
       }
     }
@@ -275,7 +282,7 @@ function step(timestamp) {
     //Left Elbow
     if (p.keypoints[8].score > 0.5) {
       if (Math.abs(p.keypoints[8].position.x - lastLElbowX) > 10) {
-        lElbowX =  lElbowX + (p.keypoints[8].position.x - lElbowX)/16;
+        lElbowX = lElbowX + (p.keypoints[8].position.x - lElbowX) / 16;
         lastLElbowX = lElbowX;
       }
 
@@ -286,28 +293,42 @@ function step(timestamp) {
     }
 
     //Left Wrist ------------------------------
-    if (p.keypoints[10].score > 0.5) {
-      if (Math.abs(p.keypoints[10].position.x - lastLwristX) > 10) {
-        lWristX = lWristX + (p.keypoints[10].position.x - lWristX)/16;
+    console.log(
+      "L W Pos  " +
+        Math.trunc(p.keypoints[10].position.x) +
+        " " +
+        Math.trunc(p.keypoints[10].position.y) +
+        " " +
+        p.keypoints[10].score
+    );
+    if (p.keypoints[10].score > 0.7) {
+      if (
+        Math.abs(p.keypoints[10].position.x - lastLwristX) > 10 &&
+        Math.abs(p.keypoints[10].position.x - lastLwristX) < 100
+      ) {
+        lWristX = lWristX + (p.keypoints[10].position.x - lWristX) / 16;
         lastLwristX = lWristX;
       }
 
-      if (Math.abs(p.keypoints[10].position.x - lastLwristY) > 10) {
-        lWristY =  lWristY + (p.keypoints[10].position.y - lWristY)/16;
+      if (
+        Math.abs(p.keypoints[10].position.y - lastLwristY) > 10 &&
+        Math.abs(p.keypoints[10].position.x - lastLwristX) < 100
+      ) {
+        lWristY = lWristY + (p.keypoints[10].position.y - lWristY) / 16;
         lastLwristY = lWristY;
       }
+
+      redCircle.style.left = `${lWristX}px`;
+      redCircle.style.top = `${lWristY}px`;
     }
 
     //Right Elbow------------
     if (p.keypoints[7].score > 0.5) {
       if (Math.abs(p.keypoints[7].position.x - lastRElbowX) > 10) {
-        console.log(
-          "Difference was " + Math.abs(p.keypoints[7].position.x - lastRElbowX)
-        );
         rElbowX = rElbowX + (p.keypoints[7].position.x - lastRElbowX) / 16;
         lastRElbowX = rElbowX;
       }
-      if (Math.abs(p.keypoints[7].position.x - lastRElbowY) > 10) {
+      if (Math.abs(p.keypoints[7].position.y - lastRElbowY) > 10) {
         rElbowY = rElbowY + (p.keypoints[7].position.y - lastRElbowY) / 16;
         lastRElbowY = rElbowY;
       }
@@ -315,16 +336,18 @@ function step(timestamp) {
 
     //Right Wrist --------------
 
-    if (p.keypoints[9].score > 0.5) {
+    if (p.keypoints[9].score > 0.7) {
       if (Math.abs(p.keypoints[9].position.x - lastRWristX) > 10) {
-        rWristX = rWristX + (p.keypoints[9].position.x - rWristX)/16;
+        rWristX = rWristX + (p.keypoints[9].position.x - rWristX) / 16;
         lastRWristX = rWristX;
       }
-      if (Math.abs(p.keypoints[9].position.x - lastRWristY) > 10) {
-       
-        rWristY = rWristY + ( p.keypoints[9].position.y -rWristY ) / 16 ;
+      if (Math.abs(p.keypoints[9].position.y - lastRWristY) > 10) {
+        rWristY = rWristY + (p.keypoints[9].position.y - rWristY) / 16;
         lastRWristY = rWristY;
       }
+
+      greenCircle.style.left = `${rWristX}px`;
+      greenCircle.style.top = `${rWristY}px`;
     }
     //console.log(NoseX)
 
