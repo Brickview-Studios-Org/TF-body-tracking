@@ -64,11 +64,11 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     );
     var armatureDisplay = factory.buildArmatureDisplay("Armature", "YShirt4");
     armatureDisplay.animation.play("animtion0");
-    armatureDisplay.x = -10;
-    armatureDisplay.y = -70;
+    armatureDisplay.x = 0;
+    armatureDisplay.y = 0;
     this.effectSlot = armatureDisplay.armature.getBone("neck");
-    this.effectSlot.offset.scaleX = 2.7;
-    this.effectSlot.offset.scaleY = 2.7;
+    this.effectSlot.offset.scaleX = 3;
+    this.effectSlot.offset.scaleY = 3;
 
     this.left_wrist = armatureDisplay.armature.getBone("left_wrist");
     this.left_elbow = armatureDisplay.armature.getBone("left_elbow");
@@ -149,10 +149,10 @@ var Net;
 var greenCircle, redCircle;
 const video = document.createElement("video");
 var resRecived ;
-var xOffset =360 , yOffset = 640 ;
+var xOffset =480 , yOffset = 640 ;
 // Wrap your code in DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
-  video.width = 720;
+  video.width = 960;
   video.height = 1280;
   // Set the video position to absolute and z-index to -1 to render it behind the Pixi application
   video.style.position = "absolute";
@@ -165,15 +165,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.body.appendChild(video);
 
-  navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+  const constraints = {
+    video: {
+      width: { ideal: 1280 }, //this is opposite in mobile potraite mode.
+      height: { ideal: 960 }
+    }
+  };
+
+
+  navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
 
     const videoTrack = stream.getVideoTracks()[0];
 
     // Check the settings of the video track
     const settings = videoTrack.getSettings();
+    console.log("avaialble tracks " + stream.getVideoTracks().length)
     
     // Log the requested and actual resolutions
-    console.log('Requested Resolution:', 720, 'x', 1280);
+    
     console.log('Actual Resolution:', settings.width, 'x', settings.height);
     resRecived =  settings.width+ 'x' + settings.height
     video.srcObject = stream;
