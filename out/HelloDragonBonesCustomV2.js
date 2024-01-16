@@ -64,11 +64,11 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     );
     var armatureDisplay = factory.buildArmatureDisplay("Armature", "YShirt4");
     armatureDisplay.animation.play("animtion0");
-    armatureDisplay.x = 0;
+    armatureDisplay.x = -25;
     armatureDisplay.y = 0;
     this.effectSlot = armatureDisplay.armature.getBone("neck");
-    this.effectSlot.offset.scaleX = 3;
-    this.effectSlot.offset.scaleY = 3;
+    this.effectSlot.offset.scaleX = 3.5;
+    this.effectSlot.offset.scaleY = 3.5;
 
     this.left_wrist = armatureDisplay.armature.getBone("left_wrist");
     this.left_elbow = armatureDisplay.armature.getBone("left_elbow");
@@ -95,6 +95,7 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
 
     // Add PIXI Graphics object to the PixiJS stage
     this.addChild(this.myCircle);
+    this.myCircle.x = 600
 
       // Create PIXI Text object
     this.myText = new PIXI.Text('X Value:', { fill: 0xFF00FF, fontSize: 55 });
@@ -124,8 +125,8 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     this.left_shoulder_joint.offset.x = xOffset - lShoulderX;
     this.left_shoulder_joint.offset.y = lShoulderY - yOffset;
 
-   this.right_wrist.offset.x = xOffset - rWristX;
-   this.right_wrist.offset.y = rWristY - yOffset;
+   this.right_wrist.offset.x = 200 - rWristX;
+   this.right_wrist.offset.y = rWristY - 300;
     
   this.right_elbow.offset.x = xOffset - rElbowX;
   this.right_elbow.offset.y = rElbowY - yOffset;
@@ -133,12 +134,12 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     this.right_shoulder_joint.offset.x = xOffset - rShoulderX;
     this.right_shoulder_joint.offset.y = rShoulderY - yOffset;
 
-    this.myCircle.x =   xOffset - lShoulderX; 
-    this.myCircle.y =lShoulderY - yOffset; 
+    // this.myCircle.x =   xOffset - lShoulderX; 
+    // this.myCircle.y =lShoulderY - yOffset; 
 
-    this.myText.x = xOffset - rShoulderX; 
-    this.myText.y = rShoulderY -yOffset; 
-    this.myText.text = resRecived //  Math.trunc(720 - rShoulderX);
+    // this.myText.x = xOffset - rShoulderX; 
+    // this.myText.y = rShoulderY -yOffset; 
+    // this.myText.text = resRecived //  Math.trunc(720 - rShoulderX);
 
     // console.log("Lwrist y is  " + this.left_wrist.offset.y ) ;
   };
@@ -332,10 +333,10 @@ function step(timestamp) {
     //     " " +
     //     p.keypoints[10].score
     // );
-    if (p.keypoints[10].score > 0.7) {
+    if (p.keypoints[10].score > 0.2) {
       if (
         Math.abs(p.keypoints[10].position.x - lastLwristX) > 10 &&
-        Math.abs(p.keypoints[10].position.x - lastLwristX) < 100
+        Math.abs(p.keypoints[10].position.x - lastLwristX) < 1000
       ) {
         lWristX = lWristX + (p.keypoints[10].position.x - lWristX) / 16;
         lastLwristX = lWristX;
@@ -343,14 +344,14 @@ function step(timestamp) {
 
       if (
         Math.abs(p.keypoints[10].position.y - lastLwristY) > 10 &&
-        Math.abs(p.keypoints[10].position.x - lastLwristX) < 100
+        Math.abs(p.keypoints[10].position.x - lastLwristX) < 1000
       ) {
         lWristY = lWristY + (p.keypoints[10].position.y - lWristY) / 16;
         lastLwristY = lWristY;
       }
 
-      redCircle.style.left = `${lWristX}px`;
-      redCircle.style.top = `${lWristY}px`;
+      // redCircle.style.left = `${lWristX}px`;
+      // redCircle.style.top = `${lWristY}px`;
     }
 
     //Right Elbow------------
@@ -377,8 +378,8 @@ function step(timestamp) {
         lastRWristY = rWristY;
       }
 
-      greenCircle.style.left = `${rWristX}px`;
-      greenCircle.style.top = `${rWristY}px`;
+      // greenCircle.style.left = `${rWristX}px`;
+      // greenCircle.style.top = `${rWristY}px`;
     }
     //console.log(NoseX)
 
