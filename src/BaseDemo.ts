@@ -1,6 +1,6 @@
 abstract class BaseDemo extends PIXI.Container {
     //private static BACKGROUND_URL: string = "--resource/background.png";
-    protected readonly _renderer = new PIXI.WebGLRenderer(640, 480,{transparent:true});
+    protected readonly _renderer = new PIXI.WebGLRenderer(720, 1280,{transparent:true});
     protected readonly _background: PIXI.Sprite = new PIXI.Sprite(PIXI.Texture.EMPTY);
     protected readonly _resources: string[] = [];
     protected _pixiResources: dragonBones.Map<PIXI.loaders.Resource>;
@@ -8,7 +8,7 @@ abstract class BaseDemo extends PIXI.Container {
     public constructor() {
         super();
 
-        (this._renderer as any).backgroundColor =  0x1099bb ;
+        (this._renderer as any).backgroundColor =  0x00000 ;
         this._renderer.transparent = true;
         
         //this._resources.push(BaseDemo.BACKGROUND_URL);
