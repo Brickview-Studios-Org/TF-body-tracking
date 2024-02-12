@@ -42,13 +42,15 @@ var __extends =
 
 var HelloDragonBonesCustom = /** @class */ (function (_super) {
   __extends(HelloDragonBonesCustom, _super);
-  function HelloDragonBonesCustom() {
+  function HelloDragonBonesCustom(resourceData) {
     var _this = _super.call(this) || this;
+    console.log(resourceData.data.skeJson);
     _this._resources.push(
-      "resource/Red/YShirt4_ske.json",
-      "resource/Red/YShirt4_tex.json",
-      "resource/Red/YShirt4_tex.png"
+      resourceData.data.skeJson,
+      resourceData.data.texJson,
+      resourceData.data.texPng
     );
+    _this.resourceData = resourceData;
     return _this;
   }
 
@@ -56,19 +58,19 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     var factory = dragonBones.PixiFactory.factory;
 
     factory.parseDragonBonesData(
-      this._pixiResources["resource/Red/YShirt4_ske.json"].data
+      this._pixiResources[this.resourceData.data.skeJson].data
     );
     factory.parseTextureAtlasData(
-      this._pixiResources["resource/Red/YShirt4_tex.json"].data,
-      this._pixiResources["resource/Red/YShirt4_tex.png"].texture
+      this._pixiResources[this.resourceData.data.texJson].data,
+      this._pixiResources[this.resourceData.data.texPng].texture
     );
     var armatureDisplay = factory.buildArmatureDisplay("Armature", "YShirt4");
     armatureDisplay.animation.play("animtion0");
-    armatureDisplay.x = -15;
+    armatureDisplay.x = -25;
     armatureDisplay.y = 0;
     this.effectSlot = armatureDisplay.armature.getBone("neck");
-    // this.effectSlot.offset.scaleX = 1.5;
-    // this.effectSlot.offset.scaleY = 1.5;
+    this.effectSlot.offset.scaleX = 3.5;
+    this.effectSlot.offset.scaleY = 3.5;
 
     this.left_wrist = armatureDisplay.armature.getBone("left_wrist");
     this.left_elbow = armatureDisplay.armature.getBone("left_elbow");
@@ -95,42 +97,51 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
 
     // Add PIXI Graphics object to the PixiJS stage
     this.addChild(this.myCircle);
+    this.myCircle.x = 600
+
+      // Create PIXI Text object
+    this.myText = new PIXI.Text('X Value:', { fill: 0xFF00FF, fontSize: 55 });
+
+    // Position the text
+    this.myText.x = 720;  // Adjust the x position as needed
+    this.myText.y = 0;    // Adjust the y position as needed
+
+    // Add PIXI Text object to the PixiJS stage
+    this.addChild(this.myText);
+    
 
     PIXI.ticker.shared.add(this._enterFrameHandler, this);
   };
   HelloDragonBonesCustom.prototype._enterFrameHandler = function (deltaTime) {
-    this.effectSlot.offset.x = 320 - NeckX;
-    this.effectSlot.offset.y = NeckY - 240;
+    this.effectSlot.offset.x = xOffset - NeckX;
+    this.effectSlot.offset.y = NeckY - yOffset;
 
     // let leftWrist =  // this 200 is arbitary suposed to be 320 but this works
-    this.left_wrist.offset.x = 200 - lWristX;
-    this.left_wrist.offset.y = lWristY - 480;
+   this.left_wrist.offset.x = xOffset - lWristX;
+   this.left_wrist.offset.y = lWristY - yOffset;
 
-    //let elbowSide =
-    this.left_elbow.offset.x = 200 - lElbowX;
-    //let elbowHeigh =
-    this.left_elbow.offset.y = lElbowY - 400;
+   
+    this.left_elbow.offset.x = xOffset - lElbowX;
+    this.left_elbow.offset.y = lElbowY - yOffset;
 
-    this.left_shoulder_joint.offset.x = 320 - lShoulderX;
-    this.left_shoulder_joint.offset.y = lShoulderY - 240;
+    this.left_shoulder_joint.offset.x = xOffset - lShoulderX;
+    this.left_shoulder_joint.offset.y = lShoulderY - yOffset;
 
-    this.right_wrist.offset.x = 420 - rWristX;
-    this.right_wrist.offset.y = rWristY - 480;
+   this.right_wrist.offset.x = 200 - rWristX;
+   this.right_wrist.offset.y = rWristY - 300;
+    
+  this.right_elbow.offset.x = xOffset - rElbowX;
+  this.right_elbow.offset.y = rElbowY - yOffset;
 
-    //let relbowSide =
-    this.right_elbow.offset.x = 440 - rElbowX;
-    //let relbowHeigh =
-    this.right_elbow.offset.y = rElbowY - 400;
+    this.right_shoulder_joint.offset.x = xOffset - rShoulderX;
+    this.right_shoulder_joint.offset.y = rShoulderY - yOffset;
 
-    this.right_shoulder_joint.offset.x = 320 - rShoulderX;
-    this.right_shoulder_joint.offset.y = rShoulderY - 240;
+    // this.myCircle.x =   xOffset - lShoulderX; 
+    // this.myCircle.y =lShoulderY - yOffset; 
 
-    //console.log(lWristY - 240);
-    //this.left_wrist.offset.y =  lWristY - 240;
-    //
-
-    this.myCircle.x = -400; // relbowSide//320 - lElbowX ;
-    this.myCircle.y = -600; // relbowHeigh ;
+    // this.myText.x = xOffset - rShoulderX; 
+    // this.myText.y = rShoulderY -yOffset; 
+    // this.myText.text = resRecived //  Math.trunc(720 - rShoulderX);
 
     // console.log("Lwrist y is  " + this.left_wrist.offset.y ) ;
   };
@@ -140,23 +151,46 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
 var Net;
 var greenCircle, redCircle;
 const video = document.createElement("video");
+var resRecived ;
+var xOffset =480 , yOffset = 640 ;
 // Wrap your code in DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
-  video.width = 640;
-  video.height = 480;
+  video.width = 960;
+  video.height = 1280;
   // Set the video position to absolute and z-index to -1 to render it behind the Pixi application
   video.style.position = "absolute";
   video.style.zIndex = "-1";
   video.style.transform = "scaleX(-1)";
+  
   video.style.left = `${0}px`;
 
   video.addEventListener("click", detectFrame);
 
   document.body.appendChild(video);
 
-  navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+  const constraints = {
+    video: {
+      width: { ideal: 1280 }, //this is opposite in mobile potraite mode.
+      height: { ideal: 960 }
+    }
+  };
+
+
+  navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+
+    const videoTrack = stream.getVideoTracks()[0];
+
+    // Check the settings of the video track
+    const settings = videoTrack.getSettings();
+    console.log("avaialble tracks " + stream.getVideoTracks().length)
+    
+    // Log the requested and actual resolutions
+    
+    console.log('Actual Resolution:', settings.width, 'x', settings.height);
+    resRecived =  settings.width+ 'x' + settings.height
     video.srcObject = stream;
     video.play();
+    
   });
 
   posenet
@@ -190,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function detectFrame() {
   if (Net == null) {
-    console.log("Posenet not loaded");
+    //console.log("Posenet not loaded");
     return;
   }
   var pose = await Net.estimateSinglePose(video);
@@ -293,18 +327,18 @@ function step(timestamp) {
     }
 
     //Left Wrist ------------------------------
-    console.log(
-      "L W Pos  " +
-        Math.trunc(p.keypoints[10].position.x) +
-        " " +
-        Math.trunc(p.keypoints[10].position.y) +
-        " " +
-        p.keypoints[10].score
-    );
-    if (p.keypoints[10].score > 0.7) {
+    // console.log(
+    //   "L W Pos  " +
+    //     Math.trunc(p.keypoints[10].position.x) +
+    //     " " +
+    //     Math.trunc(p.keypoints[10].position.y) +
+    //     " " +
+    //     p.keypoints[10].score
+    // );
+    if (p.keypoints[10].score > 0.2) {
       if (
         Math.abs(p.keypoints[10].position.x - lastLwristX) > 10 &&
-        Math.abs(p.keypoints[10].position.x - lastLwristX) < 100
+        Math.abs(p.keypoints[10].position.x - lastLwristX) < 1000
       ) {
         lWristX = lWristX + (p.keypoints[10].position.x - lWristX) / 16;
         lastLwristX = lWristX;
@@ -312,14 +346,14 @@ function step(timestamp) {
 
       if (
         Math.abs(p.keypoints[10].position.y - lastLwristY) > 10 &&
-        Math.abs(p.keypoints[10].position.x - lastLwristX) < 100
+        Math.abs(p.keypoints[10].position.x - lastLwristX) < 1000
       ) {
         lWristY = lWristY + (p.keypoints[10].position.y - lWristY) / 16;
         lastLwristY = lWristY;
       }
 
-      redCircle.style.left = `${lWristX}px`;
-      redCircle.style.top = `${lWristY}px`;
+      // redCircle.style.left = `${lWristX}px`;
+      // redCircle.style.top = `${lWristY}px`;
     }
 
     //Right Elbow------------
@@ -346,8 +380,8 @@ function step(timestamp) {
         lastRWristY = rWristY;
       }
 
-      greenCircle.style.left = `${rWristX}px`;
-      greenCircle.style.top = `${rWristY}px`;
+      // greenCircle.style.left = `${rWristX}px`;
+      // greenCircle.style.top = `${rWristY}px`;
     }
     //console.log(NoseX)
 
