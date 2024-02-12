@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <title>TIF Dress Check</title>
+    <title>DragonBones Demo</title>
 
     <script src="./libs/pixi/pixi.js"></script>
     <script src="./libs/dragonBones/dragonBones.js"></script>
@@ -34,8 +34,42 @@
 
 <body>
     <script>
+
+
         //new HelloDragonBones();
-        new HelloDragonBonesCustom();
+        // Make API call to retrieve data
+
+         // Function to get query parameter from URL
+         function getQueryParam(parameterName) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            return urlParams.get(parameterName);
+        }
+
+        // Usage example
+        const productID = getQueryParam('productID');
+        const skeJson = getQueryParam('skeJson');
+        const texJson = getQueryParam('texJson');
+        const texPng = getQueryParam('texPng');
+
+        console.log('Product ID:', productID);
+        console.log('SKE JSON URL:', skeJson);
+        console.log('TEX JSON URL:', texJson);
+        console.log('TEX PNG URL:', texPng);
+        fetch("https://0zwhtezm4f.execute-api.ap-south-1.amazonaws.com/TryItFirst/mirror_product?productID="+productID)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("API request failed");
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Instantiate HelloDragonBonesCustom and pass retrieved data
+                const helloDragonBonesCustomInstance = new HelloDragonBonesCustom(data);
+            })
+            .catch(error => {
+                console.error("Error fetching API data:", error);
+            });
         // new AnimationBase();
         // new DragonBonesEvent();
         // new AnimationLayer();
