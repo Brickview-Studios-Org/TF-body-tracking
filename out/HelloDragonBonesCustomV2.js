@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
   video.width = 960;
   video.height = 1280;
   // Set the video position to absolute and z-index to -1 to render it behind the Pixi application
-  video.style.position = "relative";
+  video.style.position = "abosolute";
   video.style.zIndex = "-1";
   video.style.transform = "scaleX(-1)";
   
