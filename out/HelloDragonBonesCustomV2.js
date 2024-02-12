@@ -42,13 +42,15 @@ var __extends =
 
 var HelloDragonBonesCustom = /** @class */ (function (_super) {
   __extends(HelloDragonBonesCustom, _super);
-  function HelloDragonBonesCustom() {
+  function HelloDragonBonesCustom(resourceData) {
     var _this = _super.call(this) || this;
+    console.log(resourceData.data.skeJson);
     _this._resources.push(
-      "resource/Red/YShirt4_ske.json",
-      "resource/Red/YShirt4_tex.json",
-      "resource/Red/YShirt4_tex.png"
+      resourceData.data.skeJson,
+      resourceData.data.texJson,
+      resourceData.data.texPng
     );
+    _this.resourceData = resourceData;
     return _this;
   }
 
@@ -56,11 +58,11 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     var factory = dragonBones.PixiFactory.factory;
 
     factory.parseDragonBonesData(
-      this._pixiResources["resource/Red/YShirt4_ske.json"].data
+      this._pixiResources[this.resourceData.data.skeJson].data
     );
     factory.parseTextureAtlasData(
-      this._pixiResources["resource/Red/YShirt4_tex.json"].data,
-      this._pixiResources["resource/Red/YShirt4_tex.png"].texture
+      this._pixiResources[this.resourceData.data.texJson].data,
+      this._pixiResources[this.resourceData.data.texPng].texture
     );
     var armatureDisplay = factory.buildArmatureDisplay("Armature", "YShirt4");
     armatureDisplay.animation.play("animtion0");
