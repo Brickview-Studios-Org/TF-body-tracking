@@ -34,9 +34,29 @@
 
 <body>
     <script>
+
+
         //new HelloDragonBones();
         // Make API call to retrieve data
-        fetch("https://0zwhtezm4f.execute-api.ap-south-1.amazonaws.com/TryItFirst/mirror_product?productID=1705040103497")
+
+         // Function to get query parameter from URL
+         function getQueryParam(parameterName) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            return urlParams.get(parameterName);
+        }
+
+        // Usage example
+        const productID = getQueryParam('productID');
+        const skeJson = getQueryParam('skeJson');
+        const texJson = getQueryParam('texJson');
+        const texPng = getQueryParam('texPng');
+
+        console.log('Product ID:', productID);
+        console.log('SKE JSON URL:', skeJson);
+        console.log('TEX JSON URL:', texJson);
+        console.log('TEX PNG URL:', texPng);
+        fetch("https://0zwhtezm4f.execute-api.ap-south-1.amazonaws.com/TryItFirst/mirror_product?productID="+productID)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("API request failed");
