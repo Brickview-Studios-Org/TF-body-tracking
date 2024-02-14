@@ -33,6 +33,7 @@
 </head>
 
 <body>
+    <p id="windowWidth"></p>
     <script>
 
 
@@ -56,6 +57,11 @@
         console.log('SKE JSON URL:', skeJson);
         console.log('TEX JSON URL:', texJson);
         console.log('TEX PNG URL:', texPng);
+        window.onload = function() {
+    var windowWidth = window.innerWidth;
+    
+    document.getElementById('windowWidth').innerText = "Browser Window Width: " + windowWidth;
+  };
         fetch("https://0zwhtezm4f.execute-api.ap-south-1.amazonaws.com/TryItFirst/mirror_product?productID="+productID)
             .then(response => {
                 if (!response.ok) {
