@@ -14,10 +14,10 @@ var BaseDemo = /** @class */ (function (_super) {
     function BaseDemo() {
         var _this = _super.call(this) || this;
         //private static BACKGROUND_URL: string = "--resource/background.png";
-        _this._renderer = new PIXI.WebGLRenderer(640, 480, { transparent: true });
+        _this._renderer = new PIXI.WebGLRenderer(960, 1280, { transparent: true });
         _this._background = new PIXI.Sprite(PIXI.Texture.EMPTY);
         _this._resources = [];
-        _this._renderer.backgroundColor = 0x1099bb;
+        _this._renderer.backgroundColor = 0x00000;
         _this._renderer.transparent = true;
         //this._resources.push(BaseDemo.BACKGROUND_URL);
         document.body.appendChild(_this._renderer.view);

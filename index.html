@@ -30,9 +30,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
     <style>
         body {
-          background-color: black; /* Set background color to black */
+          background-color: rgb(57, 182, 147); /* Set background color to black */
           color: white; /* Set text color to white */
           font-family: Arial, sans-serif; /* Optional: Set font family */
+          border-color: blueviolet;
+          border-width: 20rem;          
+          width: 100%;
+          height: 100%;
+          position: relative;
         }
       </style>
 
@@ -40,6 +45,8 @@
 
 <body>
     <p id="windowWidth"></p>
+    <p id="parentWidth"></p>
+    
     <script>
 
 
@@ -51,6 +58,10 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             return urlParams.get(parameterName);
+        }
+
+        function parentWidth(elem) {
+            return elem.parentElement.clientWidth;
         }
 
         // Usage example
@@ -65,8 +76,10 @@
         console.log('TEX PNG URL:', texPng);
         window.onload = function() {
     var windowWidth = window.innerWidth;
+    var parentWidthSize = parentWidth(document.getElementById('parentWidth'));
     
     document.getElementById('windowWidth').innerText = "Browser Window Width: " + windowWidth;
+    document.getElementById('parentWidth').innerText = "ParentWidth Window Width: " + parentWidthSize;
   };
         fetch("https://0zwhtezm4f.execute-api.ap-south-1.amazonaws.com/TryItFirst/mirror_product?productID="+productID)
             .then(response => {
