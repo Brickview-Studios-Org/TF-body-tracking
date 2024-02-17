@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set up video element
   //video.height = 640;
   video.style.transform = "scaleX(-1)";
-  video.style.border = "5px solid red";
+  video.style.border = "5px solid blue";
   video.addEventListener("click", detectFrame);
 
   // Set up container styles
