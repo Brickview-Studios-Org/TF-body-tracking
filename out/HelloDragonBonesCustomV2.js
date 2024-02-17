@@ -69,8 +69,8 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     armatureDisplay.x = -25;
     armatureDisplay.y = 0;
     this.effectSlot = armatureDisplay.armature.getBone("neck");
-    this.effectSlot.offset.scaleX = 3.5;
-    this.effectSlot.offset.scaleY = 3.5;
+    this.effectSlot.offset.scaleX = 1;
+    this.effectSlot.offset.scaleY = 1;
 
     this.left_wrist = armatureDisplay.armature.getBone("left_wrist");
     this.left_elbow = armatureDisplay.armature.getBone("left_elbow");
@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
   container.style.zIndex = "-1";
 
-  video.style.border = "5px solid blue";
+  //video.style.border = "5px solid blue";
 
   // Add video to the container
   container.appendChild(video);
@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const constraints = {
     video: {
-      width: { ideal: 2160 }, //this is opposite in mobile potraite mode.
+      width: { ideal: 1920 }, //this is opposite in mobile potraite mode.
       height: { ideal: 1080}
     }
   };
