@@ -155,18 +155,62 @@ var resRecived ;
 var xOffset =480 , yOffset = 640 ;
 // Wrap your code in DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
-  video.width = 960;
-  video.height = 1280;
-  // Set the video position to absolute and z-index to -1 to render it behind the Pixi application
-  video.style.position = "absolute";
-  video.style.zIndex = "-1";
-  video.style.transform = "scaleX(-1)";
   
-  video.style.left = `${0}px`;
-
+  const container = document.createElement("div"); // Container to center the video
+  
+  // Set up video element
+  //video.height = 640;
+  video.style.transform = "scaleX(-1)";
+  video.style.border = "5px solid red";
   video.addEventListener("click", detectFrame);
 
-  document.body.appendChild(video);
+  // Set up container styles
+  container.style.position = "absolute";
+  container.style.top = "50%";
+  container.style.left = "50%";
+  container.style.transform = "translate(-50%, -50%)"; // Center the container
+  container.style.zIndex = "-1";
+
+  // Add video to the container
+  container.appendChild(video);
+  document.body.appendChild(container);
+
+  // Function to update video size and position
+  function updateVideoSizeAndPosition() {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      
+      // Calculate the desired video width based on the aspect ratio of the video
+      const videoAspectRatio = 16 / 9; // Assuming 16:9 aspect ratio
+      let videoWidth = windowWidth;
+      let videoHeight = windowWidth / videoAspectRatio;
+
+      // If the calculated height is greater than the window height, adjust the width
+      if (videoHeight > windowHeight) {
+          videoHeight = windowHeight;
+          videoWidth = windowHeight * videoAspectRatio;
+      }
+
+      // Update video styles
+      video.style.width = videoWidth + "px";
+     video.style.height = videoHeight + "px";
+
+     video.width = videoWidth;
+     video.height = videoHeight;
+
+
+     xOffset = videoWidth/2
+     yOffset = videoHeight/2 
+
+     // video.style.width = 1280 + "px";
+     //video.style.height = 720 + "px";
+  
+  }
+
+  // Update video size and position initially and on window resize
+  updateVideoSizeAndPosition();
+  window.addEventListener("resize", updateVideoSizeAndPosition);
+ 
 
   const constraints = {
     video: {
