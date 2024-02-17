@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set up video element
   //video.height = 640;
   video.style.transform = "scaleX(-1)";
-  video.style.border = "5px solid blue";
+ 
   video.addEventListener("click", detectFrame);
 
   // Set up container styles
@@ -223,8 +223,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const constraints = {
     video: {
-      width: { ideal: 640 }, //this is opposite in mobile potraite mode.
-      height: { ideal: 480 }
+      width: { ideal: 2160 }, //this is opposite in mobile potraite mode.
+      height: { ideal: 1080}
     }
   };
 

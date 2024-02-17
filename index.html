@@ -38,15 +38,15 @@
           width: 100%;
           height: 100%;
           position: relative;
-            margin: 0px;
+          margin: 0px;
         }
       </style>
 
 </head>
 
 <body>
-    <p id="windowWidth"></p>
-    <p id="parentWidth"></p>
+    <!-- <p id="windowWidth"></p>
+    <p id="parentWidth"></p> -->
     
     <script>
 
@@ -62,7 +62,7 @@
         }
 
         function parentWidth(elem) {
-            return elem.parentElement.clientWidth;
+            return elem.parentNode.clientWidth;
         }
 
         // Usage example
@@ -76,11 +76,11 @@
         console.log('TEX JSON URL:', texJson);
         console.log('TEX PNG URL:', texPng);
         window.onload = function() {
-    var windowWidth = window.innerWidth;
-    var parentWidthSize = parentWidth(document.getElementById('parentWidth'));
+    // var windowWidth = window.innerWidth;
+    // var parentWidthSize = parentWidth(document.getElementById('parentWidth'));
     
-    document.getElementById('windowWidth').innerText = "Browser Window Width: " + windowWidth;
-    document.getElementById('parentWidth').innerText = "ParentWidth Window Width: " + parentWidthSize;
+    // document.getElementById('windowWidth').innerText = "Inner Window Width: " + windowWidth;
+    // document.getElementById('parentWidth').innerText = "ParentWidth Window Width: " + parentWidthSize;
   };
         fetch("https://0zwhtezm4f.execute-api.ap-south-1.amazonaws.com/TryItFirst/mirror_product?productID="+productID)
             .then(response => {

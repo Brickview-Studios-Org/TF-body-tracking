@@ -1,6 +1,6 @@
 abstract class BaseDemo extends PIXI.Container {
     //private static BACKGROUND_URL: string = "--resource/background.png";
-    protected readonly _renderer = new PIXI.WebGLRenderer(360, 480,{transparent:true});
+    protected readonly _renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight,{transparent:true});
     protected readonly _background: PIXI.Sprite = new PIXI.Sprite(PIXI.Texture.EMPTY);
     protected readonly _resources: string[] = [];
     protected _pixiResources: dragonBones.Map<PIXI.loaders.Resource>;
@@ -20,6 +20,25 @@ abstract class BaseDemo extends PIXI.Container {
             this._loadResources();
         }, 10);
     }
+
+
+    // Method to center the renderer
+    public centerRenderer(): void {
+        // Get the dimensions of the window
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        // Calculate the position to center the renderer horizontally and vertically
+        const rendererX = (windowWidth - this._renderer.width) / 2;
+        const rendererY = (windowHeight - this._renderer.height) / 2;
+
+        // Apply CSS styles to the renderer's view element
+        this._renderer.view.style.position = "absolute";
+        this._renderer.view.style.left = rendererX + "px";
+        this._renderer.view.style.top = rendererY + "px";
+        this._renderer.view.style.transform = "translate(0, 0)";
+    }
+
 
     protected abstract _onStart(): void;
 
