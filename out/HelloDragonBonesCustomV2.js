@@ -168,8 +168,11 @@ document.addEventListener("DOMContentLoaded", function () {
   container.style.position = "absolute";
   container.style.top = "0%";
   container.style.left = "50%";
-  container.style.transform = "translate(-50%, 0%)"; // Center the container
+  container.style.transform = "translate(-50%, -0%)"; // Center the container
+  
   container.style.zIndex = "-1";
+
+  video.style.border = "5px solid blue";
 
   // Add video to the container
   container.appendChild(video);
@@ -183,17 +186,23 @@ document.addEventListener("DOMContentLoaded", function () {
       // Calculate the desired video width based on the aspect ratio of the video
       const videoAspectRatio = 16 / 9; // Assuming 16:9 aspect ratio
       let videoWidth = windowWidth;
-      let videoHeight = windowWidth / videoAspectRatio;
+      //let videoHeight = windowWidth / videoAspectRatio;
 
-      // If the calculated height is greater than the window height, adjust the width
-      if (videoHeight > windowHeight) {
-          videoHeight = windowHeight;
-          videoWidth = windowHeight * videoAspectRatio;
-      }
+      let videoHeight = windowHeight;
+
+      //If the calculated height is greater than the window height, adjust the width
+      // if (videoHeight > windowHeight) {
+      //     videoHeight = windowHeight;
+      //     videoWidth = windowHeight * videoAspectRatio;
+      // }
+
+      console.log("video element width " + videoWidth);
 
       // Update video styles
-      video.style.width = videoWidth + "px";
+    video.style.width = videoWidth + "px";
      video.style.height = videoHeight + "px";
+
+    
 
      video.width = videoWidth;
      video.height = videoHeight;
@@ -214,8 +223,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const constraints = {
     video: {
-      width: { ideal: 1280 }, //this is opposite in mobile potraite mode.
-      height: { ideal: 960 }
+      width: { ideal: 640 }, //this is opposite in mobile potraite mode.
+      height: { ideal: 480 }
     }
   };
 
@@ -233,6 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log('Actual Resolution:', settings.width, 'x', settings.height);
     resRecived =  settings.width+ 'x' + settings.height
     video.srcObject = stream;
+    video.fill = true;
     video.play();
     
   });
