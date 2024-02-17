@@ -69,8 +69,8 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     armatureDisplay.x = -25;
     armatureDisplay.y = 0;
     this.effectSlot = armatureDisplay.armature.getBone("neck");
-    this.effectSlot.offset.scaleX = 1;
-    this.effectSlot.offset.scaleY = 1;
+    this.effectSlot.offset.scaleX = 2;
+    this.effectSlot.offset.scaleY = 2;
 
     this.left_wrist = armatureDisplay.armature.getBone("left_wrist");
     this.left_elbow = armatureDisplay.armature.getBone("left_elbow");
