@@ -166,9 +166,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Set up container styles
   container.style.position = "absolute";
-  container.style.top = "50%";
+  container.style.top = "0%";
   container.style.left = "50%";
-  container.style.transform = "translate(-50%, -50%)"; // Center the container
+  container.style.transform = "translate(-50%, 0%)"; // Center the container
   container.style.zIndex = "-1";
 
   // Add video to the container
