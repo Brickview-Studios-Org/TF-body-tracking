@@ -64,13 +64,27 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
       this._pixiResources[this.resourceData.data.texJson].data,
       this._pixiResources[this.resourceData.data.texPng].texture
     );
-    var armatureDisplay = factory.buildArmatureDisplay("Armature", "YShirt4");
+    console.log("dragon bone name is " + this.resourceData.data.skeJson);
+
+    // Split the URL by '/'
+    const parts = this.resourceData.data.skeJson.split("/");
+
+    // Get the last part which represents the file name
+    const fileNameWithExtension = parts[parts.length - 1];
+
+    // Remove file extension (if any)
+    const fileNameWithoutExtension = fileNameWithExtension.split(".")[0];
+
+    // Extract the file name
+    const fileName = fileNameWithoutExtension.split("_")[0];
+
+    var armatureDisplay = factory.buildArmatureDisplay("Armature", fileName);
     armatureDisplay.animation.play("animtion0");
     armatureDisplay.x = -25;
     armatureDisplay.y = 0;
     this.effectSlot = armatureDisplay.armature.getBone("neck");
-    this.effectSlot.offset.scaleX = 2;
-    this.effectSlot.offset.scaleY = 2;
+    this.effectSlot.offset.scaleX = 3.5;
+    this.effectSlot.offset.scaleY = 3.5;
 
     this.left_wrist = armatureDisplay.armature.getBone("left_wrist");
     this.left_elbow = armatureDisplay.armature.getBone("left_elbow");
@@ -97,18 +111,17 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
 
     // Add PIXI Graphics object to the PixiJS stage
     this.addChild(this.myCircle);
-    this.myCircle.x = 600
+    this.myCircle.x = 600;
 
-      // Create PIXI Text object
-    this.myText = new PIXI.Text('X Value:', { fill: 0xFF00FF, fontSize: 55 });
+    // Create PIXI Text object
+    this.myText = new PIXI.Text("X Value:", { fill: 0xff00ff, fontSize: 55 });
 
     // Position the text
-    this.myText.x = 720;  // Adjust the x position as needed
-    this.myText.y = 0;    // Adjust the y position as needed
+    this.myText.x = 720; // Adjust the x position as needed
+    this.myText.y = 0; // Adjust the y position as needed
 
     // Add PIXI Text object to the PixiJS stage
     this.addChild(this.myText);
-    
 
     PIXI.ticker.shared.add(this._enterFrameHandler, this);
   };
@@ -117,30 +130,29 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
     this.effectSlot.offset.y = NeckY - yOffset;
 
     // let leftWrist =  // this 200 is arbitary suposed to be 320 but this works
-   this.left_wrist.offset.x = xOffset - lWristX;
-   this.left_wrist.offset.y = lWristY - yOffset;
+    this.left_wrist.offset.x = xOffset - lWristX;
+    this.left_wrist.offset.y = lWristY - yOffset;
 
-   
     this.left_elbow.offset.x = xOffset - lElbowX;
     this.left_elbow.offset.y = lElbowY - yOffset;
 
     this.left_shoulder_joint.offset.x = xOffset - lShoulderX;
     this.left_shoulder_joint.offset.y = lShoulderY - yOffset;
 
-   this.right_wrist.offset.x = 200 - rWristX;
-   this.right_wrist.offset.y = rWristY - 300;
-    
-  this.right_elbow.offset.x = xOffset - rElbowX;
-  this.right_elbow.offset.y = rElbowY - yOffset;
+    this.right_wrist.offset.x = 200 - rWristX;
+    this.right_wrist.offset.y = rWristY - 300;
+
+    this.right_elbow.offset.x = xOffset - rElbowX;
+    this.right_elbow.offset.y = rElbowY - yOffset;
 
     this.right_shoulder_joint.offset.x = xOffset - rShoulderX;
     this.right_shoulder_joint.offset.y = rShoulderY - yOffset;
 
-    // this.myCircle.x =   xOffset - lShoulderX; 
-    // this.myCircle.y =lShoulderY - yOffset; 
+    // this.myCircle.x =   xOffset - lShoulderX;
+    // this.myCircle.y =lShoulderY - yOffset;
 
-    // this.myText.x = xOffset - rShoulderX; 
-    // this.myText.y = rShoulderY -yOffset; 
+    // this.myText.x = xOffset - rShoulderX;
+    // this.myText.y = rShoulderY -yOffset;
     // this.myText.text = resRecived //  Math.trunc(720 - rShoulderX);
 
     // console.log("Lwrist y is  " + this.left_wrist.offset.y ) ;
@@ -151,17 +163,17 @@ var HelloDragonBonesCustom = /** @class */ (function (_super) {
 var Net;
 var greenCircle, redCircle;
 const video = document.createElement("video");
-var resRecived ;
-var xOffset =480 , yOffset = 640 ;
+var resRecived;
+var xOffset = 480,
+  yOffset = 640;
 // Wrap your code in DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
-  
   const container = document.createElement("div"); // Container to center the video
-  
+
   // Set up video element
   //video.height = 640;
   video.style.transform = "scaleX(-1)";
- 
+
   video.addEventListener("click", detectFrame);
 
   // Set up container styles
@@ -169,10 +181,10 @@ document.addEventListener("DOMContentLoaded", function () {
   container.style.top = "0%";
   container.style.left = "50%";
   container.style.transform = "translate(-50%, -0%)"; // Center the container
-  
+
   container.style.zIndex = "-1";
 
-  //video.style.border = "5px solid blue";
+  video.style.border = "5px solid blue";
 
   // Add video to the container
   container.appendChild(video);
@@ -180,71 +192,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to update video size and position
   function updateVideoSizeAndPosition() {
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-      
-      // Calculate the desired video width based on the aspect ratio of the video
-      const videoAspectRatio = 16 / 9; // Assuming 16:9 aspect ratio
-      let videoWidth = windowWidth;
-      //let videoHeight = windowWidth / videoAspectRatio;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
 
-      let videoHeight = windowHeight;
+    // Calculate the desired video width based on the aspect ratio of the video
+    const videoAspectRatio = 16 / 9; // Assuming 16:9 aspect ratio
+    let videoWidth = windowWidth;
+    //let videoHeight = windowWidth / videoAspectRatio;
 
-      //If the calculated height is greater than the window height, adjust the width
-      // if (videoHeight > windowHeight) {
-      //     videoHeight = windowHeight;
-      //     videoWidth = windowHeight * videoAspectRatio;
-      // }
+    let videoHeight = windowHeight;
 
-      console.log("video element width " + videoWidth);
+    //If the calculated height is greater than the window height, adjust the width
+    // if (videoHeight > windowHeight) {
+    //     videoHeight = windowHeight;
+    //     videoWidth = windowHeight * videoAspectRatio;
+    // }
 
-      // Update video styles
+    console.log("video element width " + videoWidth);
+
+    // Update video styles
     video.style.width = videoWidth + "px";
-     video.style.height = videoHeight + "px";
+    video.style.height = videoHeight + "px";
 
-    
+    video.width = videoWidth;
+    video.height = videoHeight;
 
-     video.width = videoWidth;
-     video.height = videoHeight;
+    xOffset = videoWidth / 2;
+    yOffset = videoHeight / 2;
 
-
-     xOffset = videoWidth/2
-     yOffset = videoHeight/2 
-
-     // video.style.width = 1280 + "px";
-     //video.style.height = 720 + "px";
-  
+    // video.style.width = 1280 + "px";
+    //video.style.height = 720 + "px";
   }
 
   // Update video size and position initially and on window resize
   updateVideoSizeAndPosition();
   window.addEventListener("resize", updateVideoSizeAndPosition);
- 
 
   const constraints = {
     video: {
-      width: { ideal: 1920 }, //this is opposite in mobile potraite mode.
-      height: { ideal: 1080}
-    }
+      width: { ideal: 2160 }, //this is opposite in mobile potraite mode.
+      height: { ideal: 1080 },
+    },
   };
 
-
   navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-
     const videoTrack = stream.getVideoTracks()[0];
 
     // Check the settings of the video track
     const settings = videoTrack.getSettings();
-    console.log("avaialble tracks " + stream.getVideoTracks().length)
-    
+    console.log("avaialble tracks " + stream.getVideoTracks().length);
+
     // Log the requested and actual resolutions
-    
-    console.log('Actual Resolution:', settings.width, 'x', settings.height);
-    resRecived =  settings.width+ 'x' + settings.height
+
+    console.log("Actual Resolution:", settings.width, "x", settings.height);
+    resRecived = settings.width + "x" + settings.height;
     video.srcObject = stream;
     video.fill = true;
     video.play();
-    
   });
 
   posenet
